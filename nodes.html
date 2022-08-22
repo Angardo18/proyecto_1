@@ -1,0 +1,204 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vis-network@latest/styles/vis-network.css" type="text/css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vis-network@latest/dist/vis-network.min.js"> </script>
+<center>
+<h1>Anuncios del prefijo</h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1000px;
+            height: 750px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+        #loadingBar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width: 1000px;
+            height: 750px;
+            background-color:rgba(200,200,200,0.8);
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+            opacity:1;
+        }
+
+        #bar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width:20px;
+            height:20px;
+            margin:auto auto auto auto;
+            border-radius:11px;
+            border:2px solid rgba(30,30,30,0.05);
+            background: rgb(0, 173, 246); /* Old browsers */
+            box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+        }
+
+        #border {
+            position:absolute;
+            top:10px;
+            left:10px;
+            width:500px;
+            height:23px;
+            margin:auto auto auto auto;
+            box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+            border-radius:10px;
+        }
+
+        #text {
+            position:absolute;
+            top:8px;
+            left:530px;
+            width:30px;
+            height:50px;
+            margin:auto auto auto auto;
+            font-size:22px;
+            color: #000000;
+        }
+
+        div.outerBorder {
+            position:relative;
+            top:400px;
+            width:600px;
+            height:44px;
+            margin:auto auto auto auto;
+            border:8px solid rgba(0,0,0,0.1);
+            background: rgb(252,252,252); /* Old browsers */
+            background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+            border-radius:72px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+<div id="loadingBar">
+    <div class="outerBorder">
+        <div id="text">0%</div>
+        <div id="border">
+            <div id="bar"></div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"id": 11708, "label": "11708", "shape": "dot"}, {"id": 32097, "label": "32097", "shape": "dot"}, {"id": 1299, "label": "1299", "shape": "dot"}, {"id": 262206, "label": "262206", "shape": "dot"}, {"id": 23243, "label": "23243", "shape": "dot"}, {"id": 131477, "label": "131477", "shape": "dot"}, {"id": 60068, "label": "60068", "shape": "dot"}, {"id": 132825, "label": "132825", "shape": "dot"}, {"id": 58453, "label": "58453", "shape": "dot"}, {"id": 13830, "label": "13830", "shape": "dot"}, {"id": 3356, "label": "3356", "shape": "dot"}, {"id": 139589, "label": "139589", "shape": "dot"}, {"id": 212123, "label": "212123", "shape": "dot"}, {"id": 58299, "label": "58299", "shape": "dot"}, {"id": 6939, "label": "6939", "shape": "dot"}, {"id": 1403, "label": "1403", "shape": "dot"}, {"id": 14907, "label": "14907", "shape": "dot"}, {"id": 15562, "label": "15562", "shape": "dot"}, {"id": 2914, "label": "2914", "shape": "dot"}, {"id": 17639, "label": "17639", "shape": "dot"}, {"id": 20205, "label": "20205", "shape": "dot"}, {"id": 202365, "label": "202365", "shape": "dot"}, {"id": 206499, "label": "206499", "shape": "dot"}, {"id": 50629, "label": "50629", "shape": "dot"}, {"id": 57866, "label": "57866", "shape": "dot"}, {"id": 204092, "label": "204092", "shape": "dot"}, {"id": 30781, "label": "30781", "shape": "dot"}, {"id": 205148, "label": "205148", "shape": "dot"}, {"id": 9002, "label": "9002", "shape": "dot"}, {"id": 20514, "label": "20514", "shape": "dot"}, {"id": 207564, "label": "207564", "shape": "dot"}, {"id": 56655, "label": "56655", "shape": "dot"}, {"id": 3257, "label": "3257", "shape": "dot"}, {"id": 29504, "label": "29504", "shape": "dot"}, {"id": 15935, "label": "15935", "shape": "dot"}, {"id": 174, "label": "174", "shape": "dot"}, {"id": 328474, "label": "328474", "shape": "dot"}, {"id": 328112, "label": "328112", "shape": "dot"}, {"id": 37100, "label": "37100", "shape": "dot"}, {"id": 3333, "label": "3333", "shape": "dot"}, {"id": 1257, "label": "1257", "shape": "dot"}, {"id": 34549, "label": "34549", "shape": "dot"}, {"id": 34800, "label": "34800", "shape": "dot"}, {"id": 24961, "label": "24961", "shape": "dot"}, {"id": 34854, "label": "34854", "shape": "dot"}, {"id": 3549, "label": "3549", "shape": "dot"}, {"id": 35619, "label": "35619", "shape": "dot"}, {"id": 58057, "label": "58057", "shape": "dot"}, {"id": 37989, "label": "37989", "shape": "dot"}, {"id": 4844, "label": "4844", "shape": "dot"}, {"id": 44103, "label": "44103", "shape": "dot"}, {"id": 44393, "label": "44393", "shape": "dot"}, {"id": 4608, "label": "4608", "shape": "dot"}, {"id": 1221, "label": "1221", "shape": "dot"}, {"id": 4637, "label": "4637", "shape": "dot"}, {"id": 47251, "label": "47251", "shape": "dot"}, {"id": 48362, "label": "48362", "shape": "dot"}, {"id": 49102, "label": "49102", "shape": "dot"}, {"id": 49134, "label": "49134", "shape": "dot"}, {"id": 53356, "label": "53356", "shape": "dot"}, {"id": 49420, "label": "49420", "shape": "dot"}, {"id": 15830, "label": "15830", "shape": "dot"}, {"id": 49432, "label": "49432", "shape": "dot"}, {"id": 49673, "label": "49673", "shape": "dot"}, {"id": 48858, "label": "48858", "shape": "dot"}, {"id": 50300, "label": "50300", "shape": "dot"}, {"id": 50304, "label": "50304", "shape": "dot"}, {"id": 50628, "label": "50628", "shape": "dot"}, {"id": 55720, "label": "55720", "shape": "dot"}, {"id": 57381, "label": "57381", "shape": "dot"}, {"id": 42708, "label": "42708", "shape": "dot"}, {"id": 57821, "label": "57821", "shape": "dot"}, {"id": 12586, "label": "12586", "shape": "dot"}, {"id": 59919, "label": "59919", "shape": "dot"}, {"id": 41327, "label": "41327", "shape": "dot"}, {"id": 61218, "label": "61218", "shape": "dot"}, {"id": 7018, "label": "7018", "shape": "dot"}, {"id": 852, "label": "852", "shape": "dot"}, {"id": 1239, "label": "1239", "shape": "dot"}, {"id": 12779, "label": "12779", "shape": "dot"}, {"id": 13030, "label": "13030", "shape": "dot"}, {"id": 14630, "label": "14630", "shape": "dot"}, {"id": 1828, "label": "1828", "shape": "dot"}, {"id": 207841, "label": "207841", "shape": "dot"}, {"id": 24482, "label": "24482", "shape": "dot"}, {"id": 25160, "label": "25160", "shape": "dot"}, {"id": 3170, "label": "3170", "shape": "dot"}, {"id": 31742, "label": "31742", "shape": "dot"}, {"id": 3214, "label": "3214", "shape": "dot"}, {"id": 3320, "label": "3320", "shape": "dot"}, {"id": 3491, "label": "3491", "shape": "dot"}, {"id": 35266, "label": "35266", "shape": "dot"}, {"id": 36924, "label": "36924", "shape": "dot"}, {"id": 35280, "label": "35280", "shape": "dot"}, {"id": 39122, "label": "39122", "shape": "dot"}, {"id": 42473, "label": "42473", "shape": "dot"}, {"id": 47787, "label": "47787", "shape": "dot"}, {"id": 51185, "label": "51185", "shape": "dot"}, {"id": 62240, "label": "62240", "shape": "dot"}, {"id": 60501, "label": "60501", "shape": "dot"}, {"id": 57264, "label": "57264", "shape": "dot"}, {"id": 62167, "label": "62167", "shape": "dot"}, {"id": 6233, "label": "6233", "shape": "dot"}, {"id": 6830, "label": "6830", "shape": "dot"}, {"id": 6894, "label": "6894", "shape": "dot"}, {"id": 6908, "label": "6908", "shape": "dot"}, {"id": 7489, "label": "7489", "shape": "dot"}, {"id": 8218, "label": "8218", "shape": "dot"}, {"id": 6461, "label": "6461", "shape": "dot"}, {"id": 8896, "label": "8896", "shape": "dot"}, {"id": 1103, "label": "1103", "shape": "dot"}, {"id": 12859, "label": "12859", "shape": "dot"}, {"id": 15435, "label": "15435", "shape": "dot"}, {"id": 199938, "label": "199938", "shape": "dot"}, {"id": 205206, "label": "205206", "shape": "dot"}, {"id": 206313, "label": "206313", "shape": "dot"}, {"id": 209650, "label": "209650", "shape": "dot"}, {"id": 34927, "label": "34927", "shape": "dot"}, {"id": 210312, "label": "210312", "shape": "dot"}, {"id": 8298, "label": "8298", "shape": "dot"}, {"id": 25091, "label": "25091", "shape": "dot"}, {"id": 29467, "label": "29467", "shape": "dot"}, {"id": 30132, "label": "30132", "shape": "dot"}, {"id": 34019, "label": "34019", "shape": "dot"}, {"id": 3303, "label": "3303", "shape": "dot"}, {"id": 35598, "label": "35598", "shape": "dot"}, {"id": 39351, "label": "39351", "shape": "dot"}, {"id": 42541, "label": "42541", "shape": "dot"}, {"id": 47147, "label": "47147", "shape": "dot"}, {"id": 50673, "label": "50673", "shape": "dot"}, {"id": 50763, "label": "50763", "shape": "dot"}, {"id": 8943, "label": "8943", "shape": "dot"}, {"id": 51088, "label": "51088", "shape": "dot"}, {"id": 59605, "label": "59605", "shape": "dot"}, {"id": 6453, "label": "6453", "shape": "dot"}, {"id": 8283, "label": "8283", "shape": "dot"}, {"id": 8455, "label": "8455", "shape": "dot"}, {"id": 8888, "label": "8888", "shape": "dot"}, {"id": 12350, "label": "12350", "shape": "dot"}, {"id": 15547, "label": "15547", "shape": "dot"}, {"id": 20932, "label": "20932", "shape": "dot"}, {"id": 29222, "label": "29222", "shape": "dot"}, {"id": 513, "label": "513", "shape": "dot"}, {"id": 13237, "label": "13237", "shape": "dot"}, {"id": 35369, "label": "35369", "shape": "dot"}, {"id": 40994, "label": "40994", "shape": "dot"}, {"id": 3223, "label": "3223", "shape": "dot"}, {"id": 47692, "label": "47692", "shape": "dot"}, {"id": 51184, "label": "51184", "shape": "dot"}, {"id": 1764, "label": "1764", "shape": "dot"}, {"id": 59890, "label": "59890", "shape": "dot"}, {"id": 6720, "label": "6720", "shape": "dot"}, {"id": 1853, "label": "1853", "shape": "dot"}, {"id": 2497, "label": "2497", "shape": "dot"}, {"id": 25152, "label": "25152", "shape": "dot"}, {"id": 4777, "label": "4777", "shape": "dot"}, {"id": 2516, "label": "2516", "shape": "dot"}, {"id": 199524, "label": "199524", "shape": "dot"}, {"id": 3399, "label": "3399", "shape": "dot"}, {"id": 51519, "label": "51519", "shape": "dot"}, {"id": 6667, "label": "6667", "shape": "dot"}, {"id": 12637, "label": "12637", "shape": "dot"}, {"id": 15605, "label": "15605", "shape": "dot"}, {"id": 199181, "label": "199181", "shape": "dot"}, {"id": 201333, "label": "201333", "shape": "dot"}, {"id": 6762, "label": "6762", "shape": "dot"}, {"id": 20811, "label": "20811", "shape": "dot"}, {"id": 20912, "label": "20912", "shape": "dot"}, {"id": 49605, "label": "49605", "shape": "dot"}, {"id": 50877, "label": "50877", "shape": "dot"}, {"id": 5392, "label": "5392", "shape": "dot"}, {"id": 5396, "label": "5396", "shape": "dot"}, {"id": 5602, "label": "5602", "shape": "dot"}, {"id": 57111, "label": "57111", "shape": "dot"}, {"id": 8660, "label": "8660", "shape": "dot"}, {"id": 1267, "label": "1267", "shape": "dot"}, {"id": 14061, "label": "14061", "shape": "dot"}, {"id": 19151, "label": "19151", "shape": "dot"}, {"id": 21700, "label": "21700", "shape": "dot"}, {"id": 37497, "label": "37497", "shape": "dot"}, {"id": 328832, "label": "328832", "shape": "dot"}, {"id": 9304, "label": "9304", "shape": "dot"}, {"id": 205112, "label": "205112", "shape": "dot"}, {"id": 206356, "label": "206356", "shape": "dot"}, {"id": 209102, "label": "209102", "shape": "dot"}, {"id": 210937, "label": "210937", "shape": "dot"}, {"id": 213151, "label": "213151", "shape": "dot"}, {"id": 21412, "label": "21412", "shape": "dot"}, {"id": 25220, "label": "25220", "shape": "dot"}, {"id": 29140, "label": "29140", "shape": "dot"}, {"id": 286, "label": "286", "shape": "dot"}, {"id": 34288, "label": "34288", "shape": "dot"}, {"id": 35710, "label": "35710", "shape": "dot"}, {"id": 33891, "label": "33891", "shape": "dot"}, {"id": 48166, "label": "48166", "shape": "dot"}, {"id": 48821, "label": "48821", "shape": "dot"}, {"id": 48919, "label": "48919", "shape": "dot"}, {"id": 553, "label": "553", "shape": "dot"}, {"id": 57695, "label": "57695", "shape": "dot"}, {"id": 64475, "label": "64475", "shape": "dot"}, {"id": 680, "label": "680", "shape": "dot"}, {"id": 20764, "label": "20764", "shape": "dot"}, {"id": 20485, "label": "20485", "shape": "dot"}, {"id": 28917, "label": "28917", "shape": "dot"}, {"id": 41095, "label": "41095", "shape": "dot"}, {"id": 41722, "label": "41722", "shape": "dot"}, {"id": 31133, "label": "31133", "shape": "dot"}, {"id": 47441, "label": "47441", "shape": "dot"}, {"id": 56534, "label": "56534", "shape": "dot"}, {"id": 1280, "label": "1280", "shape": "dot"}, {"id": 7575, "label": "7575", "shape": "dot"}, {"id": 13786, "label": "13786", "shape": "dot"}, {"id": 16735, "label": "16735", "shape": "dot"}, {"id": 22548, "label": "22548", "shape": "dot"}, {"id": 23106, "label": "23106", "shape": "dot"}, {"id": 52320, "label": "52320", "shape": "dot"}, {"id": 263152, "label": "263152", "shape": "dot"}, {"id": 37468, "label": "37468", "shape": "dot"}, {"id": 263237, "label": "263237", "shape": "dot"}, {"id": 264479, "label": "264479", "shape": "dot"}, {"id": 262589, "label": "262589", "shape": "dot"}, {"id": 267613, "label": "267613", "shape": "dot"}, {"id": 28186, "label": "28186", "shape": "dot"}, {"id": 28634, "label": "28634", "shape": "dot"}, {"id": 52814, "label": "52814", "shape": "dot"}, {"id": 271253, "label": "271253", "shape": "dot"}, {"id": 52873, "label": "52873", "shape": "dot"}, {"id": 12956, "label": "12956", "shape": "dot"}, {"id": 53070, "label": "53070", "shape": "dot"}, {"id": 61595, "label": "61595", "shape": "dot"}, {"id": 53013, "label": "53013", "shape": "dot"}, {"id": 20080, "label": "20080", "shape": "dot"}, {"id": 29680, "label": "29680", "shape": "dot"}, {"id": 327960, "label": "327960", "shape": "dot"}, {"id": 37239, "label": "37239", "shape": "dot"}, {"id": 37271, "label": "37271", "shape": "dot"}, {"id": 12307, "label": "12307", "shape": "dot"}, {"id": 29691, "label": "29691", "shape": "dot"}, {"id": 15623, "label": "15623", "shape": "dot"}, {"id": 196621, "label": "196621", "shape": "dot"}, {"id": 8758, "label": "8758", "shape": "dot"}, {"id": 198385, "label": "198385", "shape": "dot"}, {"id": 15576, "label": "15576", "shape": "dot"}, {"id": 20612, "label": "20612", "shape": "dot"}, {"id": 9044, "label": "9044", "shape": "dot"}, {"id": 21232, "label": "21232", "shape": "dot"}, {"id": 48550, "label": "48550", "shape": "dot"}, {"id": 51786, "label": "51786", "shape": "dot"}, {"id": 57777, "label": "57777", "shape": "dot"}, {"id": 59414, "label": "59414", "shape": "dot"}, {"id": 59891, "label": "59891", "shape": "dot"}, {"id": 51395, "label": "51395", "shape": "dot"}, {"id": 8803, "label": "8803", "shape": "dot"}, {"id": 16347, "label": "16347", "shape": "dot"}, {"id": 204355, "label": "204355", "shape": "dot"}, {"id": 204708, "label": "204708", "shape": "dot"}, {"id": 20766, "label": "20766", "shape": "dot"}, {"id": 2613, "label": "2613", "shape": "dot"}, {"id": 6893, "label": "6893", "shape": "dot"}, {"id": 29075, "label": "29075", "shape": "dot"}, {"id": 34177, "label": "34177", "shape": "dot"}, {"id": 35360, "label": "35360", "shape": "dot"}, {"id": 41157, "label": "41157", "shape": "dot"}, {"id": 49434, "label": "49434", "shape": "dot"}, {"id": 56665, "label": "56665", "shape": "dot"}, {"id": 58308, "label": "58308", "shape": "dot"}, {"id": 59689, "label": "59689", "shape": "dot"}, {"id": 8426, "label": "8426", "shape": "dot"}, {"id": 203574, "label": "203574", "shape": "dot"}, {"id": 9050, "label": "9050", "shape": "dot"}, {"id": 56430, "label": "56430", "shape": "dot"}, {"id": 12310, "label": "12310", "shape": "dot"}, {"id": 133210, "label": "133210", "shape": "dot"}, {"id": 18106, "label": "18106", "shape": "dot"}, {"id": 263702, "label": "263702", "shape": "dot"}, {"id": 265721, "label": "265721", "shape": "dot"}, {"id": 64126, "label": "64126", "shape": "dot"}, {"id": 28000, "label": "28000", "shape": "dot"}, {"id": 6057, "label": "6057", "shape": "dot"}, {"id": 46997, "label": "46997", "shape": "dot"}, {"id": 201106, "label": "201106", "shape": "dot"}, {"id": 23033, "label": "23033", "shape": "dot"}, {"id": 61573, "label": "61573", "shape": "dot"}, {"id": 132847, "label": "132847", "shape": "dot"}, {"id": 134823, "label": "134823", "shape": "dot"}, {"id": 3462, "label": "3462", "shape": "dot"}, {"id": 9680, "label": "9680", "shape": "dot"}, {"id": 139328, "label": "139328", "shape": "dot"}, {"id": 207910, "label": "207910", "shape": "dot"}, {"id": 41108, "label": "41108", "shape": "dot"}, {"id": 30962, "label": "30962", "shape": "dot"}, {"id": 211722, "label": "211722", "shape": "dot"}, {"id": 207003, "label": "207003", "shape": "dot"}, {"id": 47605, "label": "47605", "shape": "dot"}, {"id": 212271, "label": "212271", "shape": "dot"}, {"id": 28824, "label": "28824", "shape": "dot"}, {"id": 29049, "label": "29049", "shape": "dot"}, {"id": 30950, "label": "30950", "shape": "dot"}, {"id": 31027, "label": "31027", "shape": "dot"}, {"id": 34872, "label": "34872", "shape": "dot"}, {"id": 38008, "label": "38008", "shape": "dot"}, {"id": 39384, "label": "39384", "shape": "dot"}, {"id": 43733, "label": "43733", "shape": "dot"}, {"id": 8932, "label": "8932", "shape": "dot"}, {"id": 44097, "label": "44097", "shape": "dot"}, {"id": 200780, "label": "200780", "shape": "dot"}, {"id": 50058, "label": "50058", "shape": "dot"}, {"id": 50917, "label": "50917", "shape": "dot"}, {"id": 57187, "label": "57187", "shape": "dot"}, {"id": 15802, "label": "15802", "shape": "dot"}, {"id": 57692, "label": "57692", "shape": "dot"}, {"id": 61138, "label": "61138", "shape": "dot"}, {"id": 137409, "label": "137409", "shape": "dot"}, {"id": 6881, "label": "6881", "shape": "dot"}, {"id": 15685, "label": "15685", "shape": "dot"}, {"id": 200612, "label": "200612", "shape": "dot"}, {"id": 48237, "label": "48237", "shape": "dot"}, {"id": 60924, "label": "60924", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 32097, "to": 11708}, {"arrows": "to", "from": 1299, "to": 32097}, {"arrows": "to", "from": 262206, "to": 1299}, {"arrows": "to", "color": "black", "from": 23243, "to": 262206}, {"arrows": "to", "from": 60068, "to": 131477}, {"arrows": "to", "from": 262206, "to": 60068}, {"arrows": "to", "from": 58453, "to": 132825}, {"arrows": "to", "from": 262206, "to": 58453}, {"arrows": "to", "from": 3356, "to": 13830}, {"arrows": "to", "from": 1299, "to": 3356}, {"arrows": "to", "from": 212123, "to": 139589}, {"arrows": "to", "from": 58299, "to": 212123}, {"arrows": "to", "from": 6939, "to": 58299}, {"arrows": "to", "from": 262206, "to": 6939}, {"arrows": "to", "from": 1299, "to": 1403}, {"arrows": "to", "from": 1299, "to": 14907}, {"arrows": "to", "from": 2914, "to": 15562}, {"arrows": "to", "from": 1299, "to": 2914}, {"arrows": "to", "from": 1299, "to": 17639}, {"arrows": "to", "from": 6939, "to": 20205}, {"arrows": "to", "from": 206499, "to": 202365}, {"arrows": "to", "from": 50629, "to": 206499}, {"arrows": "to", "from": 1299, "to": 50629}, {"arrows": "to", "from": 57866, "to": 202365}, {"arrows": "to", "from": 1299, "to": 57866}, {"arrows": "to", "from": 30781, "to": 204092}, {"arrows": "to", "from": 1299, "to": 30781}, {"arrows": "to", "from": 9002, "to": 205148}, {"arrows": "to", "from": 1299, "to": 9002}, {"arrows": "to", "from": 1299, "to": 20514}, {"arrows": "to", "from": 56655, "to": 207564}, {"arrows": "to", "from": 3257, "to": 56655}, {"arrows": "to", "from": 1299, "to": 3257}, {"arrows": "to", "from": 15935, "to": 29504}, {"arrows": "to", "from": 174, "to": 15935}, {"arrows": "to", "from": 1299, "to": 174}, {"arrows": "to", "from": 328112, "to": 328474}, {"arrows": "to", "from": 37100, "to": 328112}, {"arrows": "to", "from": 1299, "to": 37100}, {"arrows": "to", "from": 1257, "to": 3333}, {"arrows": "to", "from": 1299, "to": 1257}, {"arrows": "to", "from": 1299, "to": 34549}, {"arrows": "to", "from": 24961, "to": 34800}, {"arrows": "to", "from": 3356, "to": 24961}, {"arrows": "to", "from": 1299, "to": 34854}, {"arrows": "to", "from": 3356, "to": 3549}, {"arrows": "to", "from": 58057, "to": 35619}, {"arrows": "to", "from": 174, "to": 58057}, {"arrows": "to", "from": 4844, "to": 37989}, {"arrows": "to", "from": 2914, "to": 4844}, {"arrows": "to", "from": 57866, "to": 44103}, {"arrows": "to", "from": 58057, "to": 44393}, {"arrows": "to", "from": 6939, "to": 58057}, {"arrows": "to", "from": 1221, "to": 4608}, {"arrows": "to", "from": 4637, "to": 1221}, {"arrows": "to", "from": 1299, "to": 4637}, {"arrows": "to", "from": 48362, "to": 47251}, {"arrows": "to", "from": 1299, "to": 48362}, {"arrows": "to", "from": 9002, "to": 49102}, {"arrows": "to", "from": 53356, "to": 49134}, {"arrows": "to", "from": 6939, "to": 53356}, {"arrows": "to", "from": 15830, "to": 49420}, {"arrows": "to", "from": 1299, "to": 15830}, {"arrows": "to", "from": 48362, "to": 49432}, {"arrows": "to", "from": 48858, "to": 49673}, {"arrows": "to", "from": 1299, "to": 48858}, {"arrows": "to", "from": 3257, "to": 50300}, {"arrows": "to", "from": 1299, "to": 50304}, {"arrows": "to", "from": 1299, "to": 50628}, {"arrows": "to", "from": 6939, "to": 55720}, {"arrows": "to", "from": 58453, "to": 55720}, {"arrows": "to", "from": 42708, "to": 57381}, {"arrows": "to", "from": 1299, "to": 42708}, {"arrows": "to", "from": 12586, "to": 57821}, {"arrows": "to", "from": 3257, "to": 12586}, {"arrows": "to", "from": 34549, "to": 58057}, {"arrows": "to", "from": 41327, "to": 59919}, {"arrows": "to", "from": 1299, "to": 41327}, {"arrows": "to", "from": 24961, "to": 61218}, {"arrows": "to", "from": 1299, "to": 7018}, {"arrows": "to", "from": 1299, "to": 852}, {"arrows": "to", "from": 1299, "to": 1239}, {"arrows": "to", "from": 2914, "to": 12779}, {"arrows": "to", "from": 1299, "to": 13030}, {"arrows": "to", "from": 1299, "to": 14630}, {"arrows": "to", "from": 262206, "to": 1828}, {"arrows": "to", "from": 6939, "to": 207841}, {"arrows": "to", "from": 262206, "to": 24482}, {"arrows": "to", "from": 1299, "to": 25160}, {"arrows": "to", "from": 1299, "to": 3170}, {"arrows": "to", "from": 1299, "to": 31742}, {"arrows": "to", "from": 1299, "to": 3214}, {"arrows": "to", "from": 1299, "to": 3320}, {"arrows": "to", "from": 1299, "to": 3491}, {"arrows": "to", "from": 1299, "to": 35266}, {"arrows": "to", "from": 35280, "to": 36924}, {"arrows": "to", "from": 1299, "to": 35280}, {"arrows": "to", "from": 1299, "to": 39122}, {"arrows": "to", "from": 1299, "to": 42473}, {"arrows": "to", "from": 1299, "to": 47787}, {"arrows": "to", "from": 174, "to": 51185}, {"arrows": "to", "from": 62240, "to": 58057}, {"arrows": "to", "from": 1299, "to": 62240}, {"arrows": "to", "from": 57264, "to": 60501}, {"arrows": "to", "from": 41327, "to": 57264}, {"arrows": "to", "from": 3356, "to": 62167}, {"arrows": "to", "from": 3214, "to": 6233}, {"arrows": "to", "from": 1299, "to": 6830}, {"arrows": "to", "from": 3257, "to": 6894}, {"arrows": "to", "from": 2914, "to": 6908}, {"arrows": "to", "from": 62240, "to": 7489}, {"arrows": "to", "from": 6461, "to": 8218}, {"arrows": "to", "from": 1299, "to": 6461}, {"arrows": "to", "from": 1299, "to": 8896}, {"arrows": "to", "from": 6461, "to": 1103}, {"arrows": "to", "from": 1299, "to": 12859}, {"arrows": "to", "from": 174, "to": 15435}, {"arrows": "to", "from": 1299, "to": 199938}, {"arrows": "to", "from": 1299, "to": 1299}, {"arrows": "to", "from": 1299, "to": 205206}, {"arrows": "to", "from": 50629, "to": 206313}, {"arrows": "to", "from": 34927, "to": 209650}, {"arrows": "to", "from": 1299, "to": 34927}, {"arrows": "to", "from": 8298, "to": 210312}, {"arrows": "to", "from": 25091, "to": 8298}, {"arrows": "to", "from": 1299, "to": 25091}, {"arrows": "to", "from": 35280, "to": 29467}, {"arrows": "to", "from": 1299, "to": 30132}, {"arrows": "to", "from": 3303, "to": 34019}, {"arrows": "to", "from": 262206, "to": 3303}, {"arrows": "to", "from": 6939, "to": 35598}, {"arrows": "to", "from": 1299, "to": 39351}, {"arrows": "to", "from": 1299, "to": 42541}, {"arrows": "to", "from": 1299, "to": 47147}, {"arrows": "to", "from": 174, "to": 50673}, {"arrows": "to", "from": 8943, "to": 50763}, {"arrows": "to", "from": 1299, "to": 8943}, {"arrows": "to", "from": 3257, "to": 51088}, {"arrows": "to", "from": 1299, "to": 59605}, {"arrows": "to", "from": 1299, "to": 6233}, {"arrows": "to", "from": 1299, "to": 6453}, {"arrows": "to", "from": 1299, "to": 8283}, {"arrows": "to", "from": 1299, "to": 8455}, {"arrows": "to", "from": 1299, "to": 8888}, {"arrows": "to", "from": 1299, "to": 12350}, {"arrows": "to", "from": 3303, "to": 15547}, {"arrows": "to", "from": 1299, "to": 20932}, {"arrows": "to", "from": 3303, "to": 29222}, {"arrows": "to", "from": 25091, "to": 513}, {"arrows": "to", "from": 25091, "to": 25091}, {"arrows": "to", "from": 2914, "to": 13237}, {"arrows": "to", "from": 2914, "to": 35369}, {"arrows": "to", "from": 3223, "to": 40994}, {"arrows": "to", "from": 2914, "to": 3223}, {"arrows": "to", "from": 6453, "to": 47692}, {"arrows": "to", "from": 1764, "to": 51184}, {"arrows": "to", "from": 1299, "to": 1764}, {"arrows": "to", "from": 3356, "to": 59890}, {"arrows": "to", "from": 1853, "to": 6720}, {"arrows": "to", "from": 6939, "to": 1853}, {"arrows": "to", "from": 1299, "to": 2497}, {"arrows": "to", "from": 6939, "to": 25152}, {"arrows": "to", "from": 2516, "to": 4777}, {"arrows": "to", "from": 1299, "to": 2516}, {"arrows": "to", "from": 1299, "to": 199524}, {"arrows": "to", "from": 3356, "to": 3399}, {"arrows": "to", "from": 39351, "to": 51519}, {"arrows": "to", "from": 1299, "to": 6667}, {"arrows": "to", "from": 2914, "to": 12637}, {"arrows": "to", "from": 3356, "to": 15605}, {"arrows": "to", "from": 174, "to": 199181}, {"arrows": "to", "from": 174, "to": 199524}, {"arrows": "to", "from": 6762, "to": 201333}, {"arrows": "to", "from": 1299, "to": 6762}, {"arrows": "to", "from": 3356, "to": 20811}, {"arrows": "to", "from": 174, "to": 20912}, {"arrows": "to", "from": 6762, "to": 49605}, {"arrows": "to", "from": 41327, "to": 50877}, {"arrows": "to", "from": 3356, "to": 5392}, {"arrows": "to", "from": 3257, "to": 5396}, {"arrows": "to", "from": 3356, "to": 5602}, {"arrows": "to", "from": 41327, "to": 57111}, {"arrows": "to", "from": 1267, "to": 8660}, {"arrows": "to", "from": 1299, "to": 1267}, {"arrows": "to", "from": 1299, "to": 14061}, {"arrows": "to", "from": 174, "to": 19151}, {"arrows": "to", "from": 174, "to": 21700}, {"arrows": "to", "from": 328832, "to": 37497}, {"arrows": "to", "from": 174, "to": 328832}, {"arrows": "to", "from": 262206, "to": 51185}, {"arrows": "to", "from": 174, "to": 9304}, {"arrows": "to", "from": 3257, "to": 12779}, {"arrows": "to", "from": 50629, "to": 205112}, {"arrows": "to", "from": 47147, "to": 206356}, {"arrows": "to", "from": 60501, "to": 209102}, {"arrows": "to", "from": 1299, "to": 210937}, {"arrows": "to", "from": 34549, "to": 213151}, {"arrows": "to", "from": 1299, "to": 21412}, {"arrows": "to", "from": 3320, "to": 24961}, {"arrows": "to", "from": 3356, "to": 25220}, {"arrows": "to", "from": 286, "to": 29140}, {"arrows": "to", "from": 1299, "to": 286}, {"arrows": "to", "from": 1299, "to": 34288}, {"arrows": "to", "from": 3320, "to": 35710}, {"arrows": "to", "from": 33891, "to": 47692}, {"arrows": "to", "from": 1299, "to": 33891}, {"arrows": "to", "from": 1299, "to": 48166}, {"arrows": "to", "from": 50629, "to": 48821}, {"arrows": "to", "from": 6939, "to": 48919}, {"arrows": "to", "from": 1299, "to": 553}, {"arrows": "to", "from": 60068, "to": 57695}, {"arrows": "to", "from": 1299, "to": 60068}, {"arrows": "to", "from": 50629, "to": 64475}, {"arrows": "to", "from": 1299, "to": 680}, {"arrows": "to", "from": 20485, "to": 20764}, {"arrows": "to", "from": 1299, "to": 20485}, {"arrows": "to", "from": 3257, "to": 28917}, {"arrows": "to", "from": 262206, "to": 41095}, {"arrows": "to", "from": 31133, "to": 41722}, {"arrows": "to", "from": 1299, "to": 31133}, {"arrows": "to", "from": 56534, "to": 47441}, {"arrows": "to", "from": 20764, "to": 56534}, {"arrows": "to", "from": 6461, "to": 1280}, {"arrows": "to", "from": 2914, "to": 7575}, {"arrows": "to", "from": 262206, "to": 13786}, {"arrows": "to", "from": 262206, "to": 16735}, {"arrows": "to", "from": 3356, "to": 199524}, {"arrows": "to", "from": 6939, "to": 22548}, {"arrows": "to", "from": 52320, "to": 23106}, {"arrows": "to", "from": 262206, "to": 52320}, {"arrows": "to", "from": 37468, "to": 263152}, {"arrows": "to", "from": 262206, "to": 37468}, {"arrows": "to", "from": 262206, "to": 263237}, {"arrows": "to", "from": 262589, "to": 264479}, {"arrows": "to", "from": 262206, "to": 262589}, {"arrows": "to", "from": 1299, "to": 267613}, {"arrows": "to", "from": 262206, "to": 28186}, {"arrows": "to", "from": 37468, "to": 28634}, {"arrows": "to", "from": 16735, "to": 42473}, {"arrows": "to", "from": 174, "to": 47787}, {"arrows": "to", "from": 271253, "to": 52814}, {"arrows": "to", "from": 6762, "to": 271253}, {"arrows": "to", "from": 12956, "to": 52873}, {"arrows": "to", "from": 1299, "to": 12956}, {"arrows": "to", "from": 3356, "to": 53070}, {"arrows": "to", "from": 6762, "to": 60068}, {"arrows": "to", "from": 53013, "to": 61595}, {"arrows": "to", "from": 16735, "to": 53013}, {"arrows": "to", "from": 262206, "to": 20080}, {"arrows": "to", "from": 3257, "to": 29680}, {"arrows": "to", "from": 174, "to": 327960}, {"arrows": "to", "from": 6939, "to": 37239}, {"arrows": "to", "from": 6453, "to": 37271}, {"arrows": "to", "from": 3356, "to": 328832}, {"arrows": "to", "from": 29691, "to": 12307}, {"arrows": "to", "from": 1299, "to": 29691}, {"arrows": "to", "from": 3303, "to": 15623}, {"arrows": "to", "from": 8758, "to": 196621}, {"arrows": "to", "from": 3303, "to": 8758}, {"arrows": "to", "from": 15576, "to": 198385}, {"arrows": "to", "from": 1299, "to": 15576}, {"arrows": "to", "from": 9044, "to": 20612}, {"arrows": "to", "from": 1299, "to": 9044}, {"arrows": "to", "from": 8758, "to": 20612}, {"arrows": "to", "from": 13030, "to": 21232}, {"arrows": "to", "from": 174, "to": 34927}, {"arrows": "to", "from": 58299, "to": 48550}, {"arrows": "to", "from": 15623, "to": 51786}, {"arrows": "to", "from": 8298, "to": 57777}, {"arrows": "to", "from": 3303, "to": 59414}, {"arrows": "to", "from": 51395, "to": 59891}, {"arrows": "to", "from": 6939, "to": 51395}, {"arrows": "to", "from": 174, "to": 62167}, {"arrows": "to", "from": 3303, "to": 8803}, {"arrows": "to", "from": 1299, "to": 16347}, {"arrows": "to", "from": 6939, "to": 204355}, {"arrows": "to", "from": 20766, "to": 204708}, {"arrows": "to", "from": 1299, "to": 20766}, {"arrows": "to", "from": 6893, "to": 2613}, {"arrows": "to", "from": 29075, "to": 6893}, {"arrows": "to", "from": 1299, "to": 29075}, {"arrows": "to", "from": 3356, "to": 34177}, {"arrows": "to", "from": 25091, "to": 35360}, {"arrows": "to", "from": 3257, "to": 41157}, {"arrows": "to", "from": 174, "to": 49434}, {"arrows": "to", "from": 1299, "to": 56665}, {"arrows": "to", "from": 59689, "to": 58308}, {"arrows": "to", "from": 30781, "to": 59689}, {"arrows": "to", "from": 3356, "to": 8426}, {"arrows": "to", "from": 9050, "to": 203574}, {"arrows": "to", "from": 1299, "to": 9050}, {"arrows": "to", "from": 12310, "to": 56430}, {"arrows": "to", "from": 6939, "to": 12310}, {"arrows": "to", "from": 24482, "to": 133210}, {"arrows": "to", "from": 6453, "to": 14061}, {"arrows": "to", "from": 6939, "to": 18106}, {"arrows": "to", "from": 6453, "to": 35280}, {"arrows": "to", "from": 174, "to": 263702}, {"arrows": "to", "from": 64126, "to": 265721}, {"arrows": "to", "from": 262206, "to": 64126}, {"arrows": "to", "from": 6057, "to": 28000}, {"arrows": "to", "from": 262206, "to": 6057}, {"arrows": "to", "from": 201106, "to": 46997}, {"arrows": "to", "from": 23033, "to": 201106}, {"arrows": "to", "from": 174, "to": 23033}, {"arrows": "to", "from": 1299, "to": 61573}, {"arrows": "to", "from": 2914, "to": 132847}, {"arrows": "to", "from": 3491, "to": 134823}, {"arrows": "to", "from": 3462, "to": 134823}, {"arrows": "to", "from": 9680, "to": 3462}, {"arrows": "to", "from": 1299, "to": 9680}, {"arrows": "to", "from": 34927, "to": 139328}, {"arrows": "to", "from": 41108, "to": 207910}, {"arrows": "to", "from": 30962, "to": 41108}, {"arrows": "to", "from": 1299, "to": 30962}, {"arrows": "to", "from": 207003, "to": 211722}, {"arrows": "to", "from": 47605, "to": 207003}, {"arrows": "to", "from": 1299, "to": 47605}, {"arrows": "to", "from": 6762, "to": 212271}, {"arrows": "to", "from": 1299, "to": 28824}, {"arrows": "to", "from": 1299, "to": 29049}, {"arrows": "to", "from": 1299, "to": 30950}, {"arrows": "to", "from": 1299, "to": 31027}, {"arrows": "to", "from": 24961, "to": 34872}, {"arrows": "to", "from": 46997, "to": 38008}, {"arrows": "to", "from": 6939, "to": 46997}, {"arrows": "to", "from": 47787, "to": 39384}, {"arrows": "to", "from": 8932, "to": 43733}, {"arrows": "to", "from": 1299, "to": 8932}, {"arrows": "to", "from": 200780, "to": 44097}, {"arrows": "to", "from": 1299, "to": 200780}, {"arrows": "to", "from": 6939, "to": 50058}, {"arrows": "to", "from": 57866, "to": 50917}, {"arrows": "to", "from": 15802, "to": 57187}, {"arrows": "to", "from": 6762, "to": 15802}, {"arrows": "to", "from": 47605, "to": 57692}, {"arrows": "to", "from": 137409, "to": 61138}, {"arrows": "to", "from": 6461, "to": 137409}, {"arrows": "to", "from": 15685, "to": 6881}, {"arrows": "to", "from": 6939, "to": 15685}, {"arrows": "to", "from": 4637, "to": 8888}, {"arrows": "to", "from": 174, "to": 200612}, {"arrows": "to", "from": 1299, "to": 48237}, {"arrows": "to", "from": 6939, "to": 60924}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+        network.on("stabilizationProgress", function(params) {
+      		document.getElementById('loadingBar').removeAttribute("style");
+	        var maxWidth = 496;
+	        var minWidth = 20;
+	        var widthFactor = params.iterations/params.total;
+	        var width = Math.max(minWidth,maxWidth * widthFactor);
+
+	        document.getElementById('bar').style.width = width + 'px';
+	        document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+	    });
+	    network.once("stabilizationIterationsDone", function() {
+	        document.getElementById('text').innerHTML = '100%';
+	        document.getElementById('bar').style.width = '496px';
+	        document.getElementById('loadingBar').style.opacity = 0;
+	        // really clean the dom element
+	        setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+	    });
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
