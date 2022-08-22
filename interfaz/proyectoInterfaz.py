@@ -223,7 +223,8 @@ class Example(QWidget):
             #se busca hasta encontrar la siguente que contenga el AS
             while not self.targetAsn in evento['attrs']['path']:
                 contadorInicial +=1
-                evento = self.data['events'][contadorInicial] 
+                evento = self.data['events'][contadorInicial]
+            evento = self.data['events'][self.indiceEventos[contadorInicial]]
             # print(evento['attrs']['path'])
            # print(evento['timestamp'])            
             # aqui se dibuja la ruta que cambio
